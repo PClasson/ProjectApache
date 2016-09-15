@@ -36,3 +36,21 @@ function showSlides() {
     slides[slideIndex-1].style.display = "block"; 
     setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
+
+function getNyheter() {
+    $.get('http://ofcourse.oru.se/~IK2009/xml/get_news.php', function (data) {
+        {
+            var $nyheter = $('#nyheter'); //diven p� sidan
+            $(data).find('article').each(function () {
+                var $artikel = $(this);
+                var html = '';
+                html += '<article>';
+                html += '<h3>' + $artikel.find('title').text() + '</h3>';
+                html += '<p>' + $artikel.find('bodytext').text() + '</p>';
+                html += '<p2>' + $artikel.find('date').text() + '</p2>';
+                html += '</article>';
+                $nyheter.prepend(html);
+            })
+        }
+    });
+}
