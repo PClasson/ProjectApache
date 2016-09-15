@@ -37,20 +37,53 @@ function showSlides() {
     setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
 
-function getNyheter() {
-    $.get('http://ofcourse.oru.se/~IK2009/xml/get_news.php', function (data) {
-        {
-            var $nyheter = $('#nyheter'); //diven p� sidan
-            $(data).find('article').each(function () {
-                var $artikel = $(this);
-                var html = '';
-                html += '<article>';
-                html += '<h3>' + $artikel.find('title').text() + '</h3>';
-                html += '<p>' + $artikel.find('bodytext').text() + '</p>';
-                html += '<p2>' + $artikel.find('date').text() + '</p2>';
-                html += '</article>';
-                $nyheter.prepend(html);
-            })
+function getOffice(office) {
+    $.getJSON('http://ofcourse.oru.se/~IK2009/json/get_office.php', function (data) {
+        if (data.status == 1) {
+                $(data.result).each(function(index, value) {
+                    if(office == 'orebro') {
+                        console.log(value.orebro.name);
+                        var name = value.orebro.name
+                        var address = value.orebro.address
+                        var tel = value.orebro.phone
+                        var orebro = name + '<br/>' + address + '<br/>' + tel;
+                        $('#tab2office').html(orebro);
+                    }
+                    else if(office == 'goteborg') {
+                        console.log(value.goteborg.name);
+                        var name = value.goteborg.name
+                        var address = value.goteborg.address
+                        var tel = value.goteborg.phone
+                        var goteborg = name + '<br/>' + address + '<br/>' + tel;
+                        $('#tab2office').html(goteborg);
+                    }
+                    else if(office == 'sheffield') {
+                        console.log(value.sheffield.name);
+                        var name = value.sheffield.name
+                        var address = value.sheffield.address
+                        var tel = value.sheffield.phone
+                        var sheffield = name + '<br/>' + address + '<br/>' + tel;
+                        $('#tab2office').html(sheffield);
+                    }
+                    else if(office == 'toronto') {
+                        console.log(value.toronto.name);
+                        var name = value.toronto.name
+                        var address = value.toronto.address
+                        var tel = value.toronto.phone
+                        var toronto = name + '<br/>' + address + '<br/>' + tel;
+                        $('#tab2office').html(toronto);
+                    }
+                    else if(office == 'snoqualmie') {
+                        console.log(value.snoqualmie.name);
+                        var name = value.snoqualmie.name
+                        var address = value.snoqualmie.address
+                        var tel = value.snoqualmie.phone
+                        var snoqualmie = name + '<br/>' + address + '<br/>' + tel;
+                        $('#tab2office').html(snoqualmie);
+                    }
+                });
+        } else {
+            alert(data.message);
         }
-    });
-}
+    }
+)};
